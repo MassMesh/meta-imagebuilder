@@ -65,7 +65,14 @@ jobs:
             git remote add origin git@github.com:MassMesh/meta-imagebuilder-artifacts.git
             git add .
             git commit -m "Commit artifacts."
-            GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git push -u origin "${CIRCLE_BRANCH}" --force
+
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git push origin master --force
+            elseif [ x"${CIRCLE_BRANCH}" != "x" ]; then
+              GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git push origin "${CIRCLE_BRANCH}"
+            else
+              echo "err: circle_branch: this should never hit"
+            fi
 
 workflows:
   version: 2
