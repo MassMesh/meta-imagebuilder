@@ -53,35 +53,42 @@ workflows:
     jobs:
       - checkout_code
       - build:
-          name: build_1
+          name: build_meshnode_rpi_b_plus
+          community: massmesh
+          profile: meshnode
+          device: rpi-b-plus
+          requires:
+            - checkout_code
+      - build:
+          name: build_meshnode_rpi_4
           community: massmesh
           profile: meshnode
           device: rpi-4
           requires:
             - checkout_code
       - build:
-          name: build_2
+          name: build_meshnode_apu2
           community: massmesh
           profile: meshnode
           device: apu2
           requires:
             - checkout_code
       - build:
-          name: build_3
+          name: build_meshnode_globalscale_espressobin
           community: massmesh
           profile: meshnode
           device: globalscale_espressobin
           requires:
             - checkout_code
       - build:
-          name: build_4
+          name: build_meshradio_ubnt_nanostation_ac_loco
           community: massmesh
           profile: meshradio
           device: ubnt_nanostation-ac-loco
           requires:
             - checkout_code
       - build:
-          name: build_5
+          name: build_meshradio_unifaic_mesh
           community: massmesh
           profile: meshradio
           device: ubnt_unifiac-mesh
