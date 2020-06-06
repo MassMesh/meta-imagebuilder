@@ -53,6 +53,13 @@ workflows:
     jobs:
       - checkout_code
       - build:
+          name: build_meshnode_rpi_b_plus
+          community: massmesh
+          profile: meshnode
+          device: rpi-b-plus
+          requires:
+            - checkout_code
+      - build:
           name: build_meshnode_rpi_4
           community: massmesh
           profile: meshnode
