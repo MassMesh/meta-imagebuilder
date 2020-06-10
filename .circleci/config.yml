@@ -45,7 +45,7 @@ jobs:
             export TMPDIR=`ssh -o "StrictHostKeyChecking=no" uploader@downloads.massmesh.net mktemp -d -p /home/uploader/image-uploads ci.XXXXXXXX`
             ssh -o "StrictHostKeyChecking=no" uploader@downloads.massmesh.net mkdir -p $TMPDIR/<< parameters.device >>/
             scp -o "StrictHostKeyChecking=no" -pr /tmp/artifacts/massmesh/<< parameters.profile >>/<< parameters.device >> uploader@downloads.massmesh.net:$TMPDIR/
-            ssh -o "StrictHostKeyChecking=no" uploader@downloads.massmesh.net touch $TMPDIR/<< parameters.device >>.profile.<< parameters.profile >> $TMPDIR/<< parameters.device >>.uploaded
+            ssh -o "StrictHostKeyChecking=no" uploader@downloads.massmesh.net touch $TMPDIR/<< parameters.device >>.profile.<< parameters.profile >> $TMPDIR/<< parameters.device >>.uploaded $TMPDIR/<< parameters.device >>.branch.${CIRCLE_BRANCH}
 
 workflows:
   version: 2
