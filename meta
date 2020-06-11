@@ -4,7 +4,7 @@
 
 ROOT_DIR="$PWD"			# where the script is
 DISTRO="${DISTRO:-openwrt}"	# the folder where to store created files
-VERSION="${VERSION:-18.06.2}"   # default version
+VERSION="${VERSION:-19.07.3}"   # default version
 IB_VERSION="${IB_VERSION:-$VERSION}" # ImageBuilder version if different to distro version
 BASE_URL="${BASE_URL:-https://downloads.cdn.openwrt.org}" 	# download imagebuilders
 BASE_PATH="$DISTRO/$VERSION/$TARGET" 	        # structure for storing stuff
@@ -27,11 +27,13 @@ ARIA2C="$(which aria2c)"
 
 set -e
 
-
-[ "$IB_VERSION" != "snapshots" ] && {
-	TARGETS_URL="$BASE_URL/releases/$IB_VERSION/targets/$TARGET"
-} || {
-	TARGETS_URL="$BASE_URL/snapshots/targets/$TARGET"
+set_targets_url() {
+	if [ x"$IB_VERSION" != x"snapshots" ]; then
+		TARGETS_URL="$BASE_URL/releases/$IB_VERSION/targets/$TARGET"
+	else
+		TARGETS_URL="$BASE_URL/snapshots/targets/$TARGET"
+	fi
+	echo TARGETS_URL="${TARGETS_URL}"
 }
 
 # parse the sha256sums file to determine the ImageBuilder name
@@ -171,7 +173,7 @@ die() {
 
 # setup this meta script if not already done
 [ ! -d "$ROOT_DIR/.meta_setup" ] && meta_setup
-
+set_targets_url
 # check if required vars a given
 [ -n "$TARGET" ] || die "missing \$TARGET"
 
