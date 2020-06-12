@@ -58,8 +58,12 @@ do_build() {
     ls -lh --color=auto ${BIN_DIR}
     return 0
   else
-    echo "[$0] Error building: [ $1 | $2 | $3 ]"
-    echo "[$0] Unexpected files errors? Try refreshing IB with: REFRESH=true $1 $2 $3"
+    echo "[$0] --------------------------------------------------------"
+    echo "[$0] Error building: [$1/$2/$3]"
+    echo "[$0] --------------------------------------------------------"
+    echo "[$0] Unexpected \"Package size mismatch\" opkg install errors?"
+    echo "[$0] Try refreshing old ImageBuilder with this: "
+    echo "            REFRESH=true $0 $1 $2 $3"
     return 99
   fi
 }
