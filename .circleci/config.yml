@@ -35,7 +35,7 @@ jobs:
           command: sed -i '/BIN_DIR=/ s/$PROFILE_PATH\/bin\/$3/\/tmp\/artifacts\/$1\/$2\/$3/' ./build
       - run:
           name: Build << parameters.community >> << parameters.profile >> << parameters.device >>
-          command: './build << parameters.community >> << parameters.profile >> << parameters.device >>'
+          command: 'REFRESH=1 ./build << parameters.community >> << parameters.profile >> << parameters.device >>'
       - add_ssh_keys:
           fingerprints:
             - "f6:6d:a4:c9:4e:93:86:41:57:7c:70:0c:27:fb:b9:be"
