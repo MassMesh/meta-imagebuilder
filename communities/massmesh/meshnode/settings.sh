@@ -5,6 +5,10 @@ export EXTRA_IMAGE_NAME="massmesh-meshnode"
 ## Optware Packages support for TLS/SSL/x509
 export PACKAGES="${PACKAGES} libustream-mbedtls ca-bundle ca-certificates"
 
+## Wireless device controller and drivers
+export PACKAGES="${PACKAGES} -wpad-basic wpad-mesh-openssl"
+export PACKAGES="${PACKAGES} kmod-ath kmod-ath9k kmod-ath9k-common kmod-ath10k-ct ath10k-firmware-qca988x-ct"
+
 ## Routing
 export PACKAGES="${PACKAGES} yggdrasil cjdns" # mesh routing protocols yggdrasil and cjdns
 export PACKAGES="${PACKAGES} luci-app-yggdrasil" # LuCI admin for yggdrasil
@@ -37,6 +41,9 @@ export PACKAGES="${PACKAGES} usbreset" # USB HC reset (host side, soft reset)
 ## DESELECTED ##########################################################################
 # ~ Lost Tor support after yggdrasil CKR fixed throughput without need of proxy.
 # export PACKAGES="${PACKAGES} tor tor-fw-helper tor-resolve torsocks" # Tor
+#
+# ~ From APU2
+# export PACKAGES="${PACKAGES} dnscrypt-proxy dnscrypt-proxy-resolvers luci-app-dnscrypt-proxy"
 #
 # ~ This should be re-enabled, we should be serving HTML or using opennds 9000
 # export PACKAGES="${PACKAGES} nodogsplash" # Captive portal - currently breaks peering and gateway
