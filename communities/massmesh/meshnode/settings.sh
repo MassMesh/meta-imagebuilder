@@ -44,6 +44,10 @@ export PACKAGES="${PACKAGES} usbreset" # USB HC reset (host side, soft reset)
 #
 # ~ From APU2
 # export PACKAGES="${PACKAGES} dnscrypt-proxy dnscrypt-proxy-resolvers luci-app-dnscrypt-proxy"
+# # batman-adv
+# export PACKAGES="${PACKAGES} batctl-full"
+# export PACKAGES="${PACKAGES} kmod-batman-adv"
+# export PACKAGES="${PACKAGES} alfred"
 #
 # ~ This should be re-enabled, we should be serving HTML or using opennds 9000
 # export PACKAGES="${PACKAGES} nodogsplash" # Captive portal - currently breaks peering and gateway
