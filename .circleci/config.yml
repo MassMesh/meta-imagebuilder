@@ -35,39 +35,17 @@ jobs:
           command: sed -i '/BIN_DIR=/ s/$PROFILE_PATH\/bin\/$3/\/tmp\/artifacts\/$1\/$2\/$3/' ./build
       - run:
           name: Build << parameters.community >> << parameters.profile >> << parameters.device >>
-          command: './build << parameters.community >> << parameters.profile >> << parameters.device >>'
-      - persist_to_workspace:
-          root: /tmp/artifacts
-          paths: ./*
-
-  deploy:
-    docker:
-      - image: debian:buster
-    working_directory: /tmp/artifacts
-    steps:
-      - run:
-          name: Install Dependencies
-          command: 'apt-get update && apt-get install -y git ca-certificates'
+          command: 'REFRESH=1 ./build << parameters.community >> << parameters.profile >> << parameters.device >>'
       - add_ssh_keys:
           fingerprints:
-            - "9c:ec:6c:01:d7:c6:10:2d:a5:41:ab:c3:ef:44:13:46"
-      - attach_workspace:
-          at: /tmp/artifacts
-      - store_artifacts:
-          path: '/tmp/artifacts'
-          destination: '/'
+            - "f6:6d:a4:c9:4e:93:86:41:57:7c:70:0c:27:fb:b9:be"
       - deploy:
-          name: "Publish Artifacts"
+          name: "Scp files to downloads.massmesh.net"
           command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              git init
-              git config user.email "circle@circleci.com"
-              git config user.name "CircleCI"
-              git remote add origin git@github.com:MassMesh/meta-imagebuilder-artifacts.git
-              git add .
-              git commit -m "Commit artifacts."
-              GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git push origin master --force
-            fi
+            export TMPDIR=`ssh -o "StrictHostKeyChecking=no" uploader@downloads.massmesh.net mktemp -d -p /home/uploader/image-uploads ci.XXXXXXXX`
+            ssh -o "StrictHostKeyChecking=no" uploader@downloads.massmesh.net mkdir -p $TMPDIR/<< parameters.device >>/
+            scp -o "StrictHostKeyChecking=no" -pr /tmp/artifacts/massmesh/<< parameters.profile >>/<< parameters.device >> uploader@downloads.massmesh.net:$TMPDIR/
+            ssh -o "StrictHostKeyChecking=no" uploader@downloads.massmesh.net touch $TMPDIR/<< parameters.device >>.profile.<< parameters.profile >> $TMPDIR/<< parameters.device >>.uploaded $TMPDIR/<< parameters.device >>.branch.${CIRCLE_BRANCH}
 
 workflows:
   version: 2
@@ -75,44 +53,44 @@ workflows:
     jobs:
       - checkout_code
       - build:
-          name: build_1
+          name: build_meshnode_rpi_b_plus
+          community: massmesh
+          profile: meshnode
+          device: rpi-b-plus
+          requires:
+            - checkout_code
+      - build:
+          name: build_meshnode_rpi_4
           community: massmesh
           profile: meshnode
           device: rpi-4
           requires:
             - checkout_code
       - build:
-          name: build_2
+          name: build_meshnode_apu2
           community: massmesh
           profile: meshnode
           device: apu2
           requires:
             - checkout_code
       - build:
-          name: build_3
+          name: build_meshnode_globalscale_espressobin
           community: massmesh
           profile: meshnode
           device: globalscale_espressobin
           requires:
             - checkout_code
       - build:
-          name: build_4
+          name: build_meshradio_ubnt_nanostation_ac_loco
           community: massmesh
           profile: meshradio
           device: ubnt_nanostation-ac-loco
           requires:
             - checkout_code
       - build:
-          name: build_5
+          name: build_meshradio_unifaic_mesh
           community: massmesh
           profile: meshradio
           device: ubnt_unifiac-mesh
           requires:
             - checkout_code
-      - deploy:
-          requires:
-            - build_1
-            - build_2
-            - build_3
-            - build_4
-            - build_5

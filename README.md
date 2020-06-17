@@ -54,15 +54,12 @@ To support other distributions like LibreMesh which is based on OpenWrt but
 which use additional repositories, it is possible to replace the
 `repositories.conf` with a custom version.
 
-You may setup extra repositories exporting the following variable:
+The massmesh packages repository (http://downloads.massmesh.net) is already
+included automatically.
 
-    export REPOS="""src/gz reboot_core http://downloads.openwrt.org/releases/{{ ib_version }}/targets/{{ target }}/{{ subtarget }}/packages
-    src/gz reboot_base http://downloads.openwrt.org/releases/{{ ib_version }}/packages/{{ pkg_arch }}/base
-    src/gz reboot_luci http://downloads.openwrt.org/releases/{{ ib_version }}/packages/{{ pkg_arch }}/luci
-    src/gz reboot_packages http://downloads.openwrt.org/releases/{{ ib_version }}/packages/{{ pkg_arch }}/packages
-    src/gz reboot_telephony http://downloads.openwrt.org/releases/{{ ib_version }}/packages/{{ pkg_arch }}/telephony
-    src imagebuilder file:packages
-    src/gz libremesh http://repo.libremesh.org/releases/{{ version }}/packages/{{ pkg_arch }}/libremesh
+You may setup extra repositories exporting the `REPOS` variable. Example:
+
+    export REPOS="""src/gz libremesh http://repo.libremesh.org/releases/{{ version }}/packages/{{ pkg_arch }}/libremesh
     src/gz libremap http://repo.libremesh.org/releases/{{ version }}/packages/{{ pkg_arch }}/libremap
     src/gz limeui http://repo.libremesh.org/releases/{{ version }}/packages/{{ pkg_arch }}/limeui
     src/gz lm_routing http://repo.libremesh.org/releases/{{ version }}/packages/{{ pkg_arch }}/routing

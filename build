@@ -6,37 +6,66 @@ show_help() { echo "$(grep -m1 -A1 "# Usage:" $PWD/$0)"; echo "# "; }
 
 PWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-# $1 - Community name
-# $2 - Build profile name
-# $3 - Device folder / nickname
+# $1 - Community name ................ massmesh
+# $2 - Build profile name ............ meshnode
+# $3 - Device folder / nickname ...... rpi4
+
 do_build() {
+  # Packages ########################
+
+  ##  Global Source: Profile Settings
   COMMUNITY_PATH="$PWD/communities/$1"
   if [ -f "$COMMUNITY_PATH/settings.sh" ]; then
     . "$COMMUNITY_PATH/settings.sh"
   fi
+
+  ##  Source Type: Radio or Meshnode
   PROFILE_PATH="$COMMUNITY_PATH/$2"
   if [ -f "$PROFILE_PATH/settings.sh" ]; then
     . "$PROFILE_PATH/settings.sh"
   fi
-  . "$PROFILE_PATH/$3/settings.sh"
+
+  ##  Source: Device Settings
+  if [ -f "$PROFILE_PATH/$3/settings.sh" ]; then
+    . "$PROFILE_PATH/$3/settings.sh"
+  fi
+
+  # Copy Files #####################
+
+  ## Copy All above files  ./files
   FILESDIR="$(mktemp -d)"
   if [ -d "$PWD/communities/$1/files" ]; then
     cp -r "$PWD/communities/$1/files/." "$FILESDIR/"
   fi
+
   if [ -d "$PROFILE_PATH/files" ]; then
     cp -r "$PROFILE_PATH/files/." "$FILESDIR/"
   fi
+
   if [ -d "$PROFILE_PATH/$3/files" ]; then
     cp -r "$PROFILE_PATH/$3/files/." "$FILESDIR/"
   fi
+
+  # Peanut Butter Meta Time ########
   export BIN_DIR="$PROFILE_PATH/bin/$3"
   export FILES="$FILESDIR"
-  /usr/bin/env bash ./meta image \
-    && : \
-    || exit 1
+  /usr/bin/env bash ./meta image
 
-  echo "[$0] Firmware cooked: ${BIN_DIR}/"
-  ls -lh --color=auto ${BIN_DIR}
+  # Peanut Butter Meta Time ########
+  ## meta_build_handler()
+  if [ $? -eq 0 ]; then
+    echo "[$0] Firmware cooked: ${BIN_DIR}/"
+    ls -lh --color=auto ${BIN_DIR}
+    return 0
+  else
+    echo "[$0] --------------------------------------------------------"
+    echo "[$0] Error building: [$1/$2/$3]"
+    echo "[$0] --------------------------------------------------------"
+    echo "[$0] Unexpected \"Package size mismatch\" opkg install errors?"
+    echo "[$0] Try refreshing old ImageBuilder with this: "
+    echo "            REFRESH=true $0 $1 $2 $3"
+    return 99
+  fi
 }
 
 
@@ -78,6 +107,7 @@ if [ -z "$3" ]; then
   for x in $(ls $PROFILE_PATH/); do
     [ -d $PROFILE_PATH/$x ] && \
     [ x"$x" != "xfiles" ] && \
+    [ x"$x" != "xDockerfile" ] && \
     [ x"$x" != "xbin" ] \
       && echo "- $x" \
       || :
@@ -85,8 +115,45 @@ if [ -z "$3" ]; then
   exit 1
 fi
 
-if [ ! -f "$PROFILE_PATH/$3/settings.sh" ]; then
+
+if [ $3 == "docker" ]; then
+
+  echo "Building x86/64 target for Docker"
+
+  echo "[$0] Docker: Bulding for $1 $2 $3"
+
+  do_build "$1" "$2" "apu2"
+
+  if [ $? -ne 0 ]; then
+    echo "[$0] Failed in: do_build()"
+    exit 99
+  else
+    rootfs_archive="${BIN_DIR}/openwrt-massmesh-meshnode-x86-64-generic-rootfs.tar.gz"
+    rootfs_repo="openwrt-x86-generic-rootfs"
+
+    echo "[$0] Docker: Importing OpenWrt Root Filesystem"
+    ls -l ${rootfs_archive}
+
+    docker rmi ${rootfs_repo} 2>/dev/null
+
+    docker import ${rootfs_archive} ${rootfs_repo}
+
+    docker build -t massmesh/meta \
+            communities/massmesh/meshnode
+
+
+    # docker run -it -p80:80 --rm massmesh/meta
+
+  fi
+  exit 0
+
+elif [ ! -f "$PROFILE_PATH/$3/settings.sh" ]; then
+
   echo "Missing settings.sh for $3"
+  exit 1
+
 fi
 
-do_build "$1" "$2" "$3"
+do_build "$1" "$2" "$3" \
+  && exit 0 \
+  || exit 1
