@@ -74,12 +74,10 @@ download() {
 		&& rm $(echo $TARGET | cut -d/ -f2) \
 		|| : # always re-symlink
 	if [ -n "${REFRESH}" ]; then
-		if [ -e ${IB_DIR}/openwrt-imagebuilder-*.tar.xz ]; then
-			echo "Refresh: OpenWrt IB found and removed: ${IB_DIR}"
-			echo "Refresh: $(basename ${IB_DIR}/openwrt-imagebuilder-*.tar.xz)"
+		if [ -e ${IB_DIR} ]; then
+			df_size="$(du -sh ${IB_DIR} | awk '{print $1}')"
+			echo "Refresh: OpenWrt IB found (${df_size}) and was removed: ${IB_DIR}"
 			rm -rf "${IB_DIR}" && mkdir -p "$IB_DIR"
-		else
-			echo "Refresh: No IB found: ${IB_DIR}"
 		fi
 	fi
 	ln -s "$IB_DIR" .
