@@ -69,10 +69,17 @@ meta_setup() {
 }
 
 download() {
-	mkdir -p "$IB_DIR"
-	[ -h $(echo $TARGET | cut -d/ -f2) ] \
-		&& rm $(echo $TARGET | cut -d/ -f2) \
-		|| : # always re-symlink
+	echo "meta-download: Target:        ${TARGET}"
+	echo "meta-download: ImageBuilder:  ${IB_DIR}"
+	local symlink=$(echo $TARGET | cut -d/ -f2)
+
+	## remove symlink
+	if [ -h ${symlink} ]; then
+		echo "Removing Symlink: ${symlink}"
+		rm ${symlink}
+	fi
+
+	## remove imagebuilder directory if REFRESH not empty
 	if [ -n "${REFRESH}" ]; then
 		if [ -e ${IB_DIR} ]; then
 			df_size="$(du -sh ${IB_DIR} | awk '{print $1}')"
@@ -80,17 +87,19 @@ download() {
 			rm -rf "${IB_DIR}" && mkdir -p "$IB_DIR"
 		fi
 	fi
+
+	mkdir -p "$IB_DIR"
 	ln -s "$IB_DIR" .
 	cd "$IB_DIR" || exit
 
-	echo "download checksums and signature"
+	echo "meta-download: download checksum and signature"
 	if [ x"$ARIA2C" == "x" ]; then
 		which wget 2>&1>/dev/null
 		if [ $? -eq 0 ]; then
 			wget "$TARGETS_URL/sha256sums" -O sha256sums
 			wget "$TARGETS_URL/sha256sums.gpg" -O sha256sums.asc
 		else
-			die "please install wget or aria2c for downloading"
+			die "meta-download: install wget or aria2c for downloading"
 		fi
 
 	else
@@ -98,9 +107,9 @@ download() {
 		aria2c "$TARGETS_URL/sha256sums.gpg" -o sha256sums.asc --force-save=true
 	fi
 
-	echo "verifying sha256sums signature"
+	echo "meta-download: verifying ${IB_DIR}/sha256sums.asc sha256sums signature"
 	gpg --verify sha256sums.asc
-	echo "verified sha256sums signature."
+	echo "meta-download: verified ${IB_DIR}/sha256sums.asc OK"
 	if ! grep -- "$IB" sha256sums > sha256sums.small ; then
 		die "can not find $IB file in sha256sums. Is \$IB out of date?"
 	fi
@@ -143,10 +152,16 @@ download() {
 	fi
 
 	# copy BUILD_KEY to imagebuilder folder to sign images
-	[ -e "$BUILD_KEY" ] && ln -sf "$BUILD_KEY" "$IB_DIR/key-build"
-	[ -e "$BUILD_KEY.ucert" ] && ln -sf "$BUILD_KEY.ucert" "$IB_DIR/key-build.ucert"
+	if [ -e "$BUILD_KEY" ]; then
+		echo "meta-download: Found a BUILD_KEY: ${BUILD_KEY}  -- Symlinking to key-build"
+		ln -vsf "$BUILD_KEY" "$IB_DIR/key-build"
+	fi
 
-	echo "ImageBuilder is up-to-date"
+	if [ -e "$BUILD_KEY.ucert" ]; then
+		echo "meta-download: Found a BUILD_KEY Cert: ${BUILD_KEY}.ucert  -- Symlinking to key-build.ucert"
+		ln -vsf "$BUILD_KEY.ucert" "$IB_DIR/key-build.ucert"
+	fi
+	echo "meta-download: ImageBuilder is up-to-date"
 }
 
 custom_repos() {
