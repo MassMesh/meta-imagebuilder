@@ -17,7 +17,7 @@ export PACKAGES="${PACKAGES} python3-mm-cli-src"
 export PACKAGES="${PACKAGES} autoygg-go"
 
 ## Python3 && Deps
-export PACKAGES="${PACKAGES} python3-light python3-urllib python3-logging"
+export PACKAGES="${PACKAGES} python3-light python3-urllib python3-logging python3-setuptools"
 
 ## JQ fast CLI parsing one liner commands
 # ~ for OpenWrt see: jshn.sh, /lib/functions.sh
