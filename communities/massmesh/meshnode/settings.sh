@@ -15,6 +15,7 @@ export PACKAGES="${PACKAGES} python3-argh"
 export PACKAGES="${PACKAGES} python3-netaddr"
 export PACKAGES="${PACKAGES} python3-mm-cli-src"
 export PACKAGES="${PACKAGES} autoygg-go"
+export PACKAGES="${PACKAGES} luci-app-autoygg"
 
 ## Python3 && Deps
 export PACKAGES="${PACKAGES} python3-light python3-urllib python3-logging"
