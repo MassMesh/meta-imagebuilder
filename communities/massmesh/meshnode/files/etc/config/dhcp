@@ -11,8 +11,9 @@ config dnsmasq
 	option leasefile '/tmp/dhcp.leases'
 	option nonwildcard '1'
 	option localservice '1'
-	list server '200:c493:950a:d576:a413:faef:990b:fb76'
+	list server '8.8.8.8'
 	list server '1.1.1.1'
+	list server '198.98.49.91'
 
 config dhcp 'lan'
 	option interface 'lan'
