@@ -17,6 +17,10 @@ export PACKAGES="${PACKAGES} python3-mm-cli-src"
 export PACKAGES="${PACKAGES} autoygg-go"
 export PACKAGES="${PACKAGES} luci-app-autoygg"
 
+## Benchmarking / Common Utils
+export PACKAGES="${PACKAGES} nano iperf3 curl tcpdump iputils-ping vnstat mtr noping"
+export PACKAGES="${PACKAGES} haveged" # Ensure entropy
+
 ## Python3 && Deps
 export PACKAGES="${PACKAGES} python3-light python3-urllib python3-logging"
 
