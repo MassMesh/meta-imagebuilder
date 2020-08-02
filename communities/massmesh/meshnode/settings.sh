@@ -11,18 +11,12 @@ export PACKAGES="${PACKAGES} luci-app-yggdrasil" # LuCI admin for yggdrasil
 export PACKAGES="${PACKAGES} luci-app-cjdns" # LuCI admin for cjdns
 
 ## MassMesh Packages repo.com/massmesh/mm-toolbox.git
-export PACKAGES="${PACKAGES} python3-argh"
-export PACKAGES="${PACKAGES} python3-netaddr"
-export PACKAGES="${PACKAGES} python3-mm-cli-src"
 export PACKAGES="${PACKAGES} autoygg-go"
 export PACKAGES="${PACKAGES} luci-app-autoygg"
 
 ## Benchmarking / Common Utils
 export PACKAGES="${PACKAGES} nano iperf3 curl tcpdump iputils-ping vnstat mtr noping"
 export PACKAGES="${PACKAGES} haveged" # Ensure entropy
-
-## Python3 && Deps
-export PACKAGES="${PACKAGES} python3-light python3-urllib python3-logging"
 
 ## JQ fast CLI parsing one liner commands
 # ~ for OpenWrt see: jshn.sh, /lib/functions.sh
@@ -37,7 +31,6 @@ export PACKAGES="${PACKAGES} kmod-usb-net-asix-ax88179 kmod-usb-net-rtl8152" # U
 # ~ Reset utility used for tethering or jammed Wi-Fi devices
 # ~ (see LiMe opkgs: watchping / watchdog)
 export PACKAGES="${PACKAGES} usbreset" # USB HC reset (host side, soft reset)
-
 
 ## DESELECTED ##########################################################################
 # ~ Lost Tor support after yggdrasil CKR fixed throughput without need of proxy.
