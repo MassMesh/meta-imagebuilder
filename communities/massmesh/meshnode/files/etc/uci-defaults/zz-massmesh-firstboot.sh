@@ -18,6 +18,14 @@ uci commit
 uci set firewall.yggdrasil.masq='1'
 uci commit
 
+# Allow Iperf3 testing TCP/UDP on port 5201
+uci add firewall rule
+uci set firewall.@rule[-1].name='Iperf3 Throughput / Bandwidth'
+uci set firewall.@rule[-1].src='*'
+uci set firewall.@rule[-1].dest_port='5201'
+uci set firewall.@rule[-1].target='ACCEPT'
+uci commit
+
 # Add yggdrasil peers
 uci add yggdrasil peer
 uci set yggdrasil.@peer[-1].uri='tcp://50.236.201.218:56088'
