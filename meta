@@ -162,6 +162,18 @@ custom_repos() {
 		"$IB_DIR/repositories.conf"
 }
 
+increase_rootfs_part() {
+	PROFILE_TYPE=$(basename $PROFILE_PATH)
+	if [ x"$PROFILE_TYPE" == x"meshnode" ]; then
+	  echo "Increasing rootfs partition from 104M to 512M"
+	  pushd "$IB_DIR"
+	  sed -i \
+		's/CONFIG_TARGET_ROOTFS_PARTSIZE=.*$/CONFIG_TARGET_ROOTFS_PARTSIZE=512/1' \
+		.config
+	  popd
+	fi
+}
+
 die() {
 	echo $1
 	exit 1
@@ -178,6 +190,9 @@ set_targets_url
 
 # will stop here if command is download
 [ "$1" != "download" ] || exit 0
+
+# increase the rootfs partition if meshnode
+increase_rootfs_part
 
 # run `make image` and pass variables
 (cd "$IB_DIR" &&
