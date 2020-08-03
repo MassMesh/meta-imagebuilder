@@ -49,7 +49,7 @@ do_build() {
   # Peanut Butter Meta Time ########
   export BIN_DIR="$PROFILE_PATH/bin/$3"
   export FILES="$FILESDIR"
-  /usr/bin/env bash ./meta image
+  PROFILE_PATH=$PROFILE_PATH /usr/bin/env bash ./meta image
 
   # Peanut Butter Meta Time ########
   ## meta_build_handler()
