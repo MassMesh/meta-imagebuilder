@@ -27,16 +27,21 @@ uci set firewall.@rule[-1].target='ACCEPT'
 uci commit
 
 # Add yggdrasil peers
-uci add yggdrasil peer
-uci set yggdrasil.@peer[-1].uri='tcp://50.236.201.218:56088'
-uci add yggdrasil peer
-uci set yggdrasil.@peer[-1].uri='tcp://45.76.166.128:12345'
-uci add yggdrasil peer
-uci set yggdrasil.@peer[-1].uri='tcp://45.77.107.150:34660'
-uci add yggdrasil peer
-uci set yggdrasil.@peer[-1].uri='tcp://108.175.10.127:61216'
-uci add yggdrasil peer
-uci set yggdrasil.@peer[-1].uri='tcp://198.58.100.240:44478'
+uci add yggdrasil interface_peer
+uci set yggdrasil.@interface_peer[-1].uri='tcp://50.236.201.218:56088'
+uci set yggdrasil.@interface_peer[-1].interface='eth1'
+uci add yggdrasil interface_peer
+uci set yggdrasil.@interface_peer[-1].uri='tcp://45.76.166.128:12345'
+uci set yggdrasil.@interface_peer[-1].interface='eth1'
+uci add yggdrasil interface_peer
+uci set yggdrasil.@interface_peer[-1].uri='tcp://45.77.107.150:34660'
+uci set yggdrasil.@interface_peer[-1].interface='eth1'
+uci add yggdrasil interface_peer
+uci set yggdrasil.@interface_peer[-1].uri='tcp://108.175.10.127:61216'
+uci set yggdrasil.@interface_peer[-1].interface='eth1'
+uci add yggdrasil interface_peer
+uci set yggdrasil.@interface_peer[-1].uri='tcp://198.58.100.240:44478'
+uci set yggdrasil.@interface_peer[-1].interface='eth1'
 uci commit
 
 # Add yggdrasil tunnel routing config

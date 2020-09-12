@@ -6,3 +6,5 @@ export REPOS=`echo -en "${REPOS}\n# Massmesh package repo\nsrc/gz custom http://
 export PACKAGES="${PACKAGES} luci luci-theme-material" # Luci for web configuration
 export PACKAGES="${PACKAGES} kmod-ath10k-ct ath10k-firmware-qca988x-ct -kmod-ath10k-ct-smallbuffers" # QCA wireless firmware for mesh mode
 
+# Make sure wolfssl is excluded, we use openssl
+export PACKAGES="${PACKAGES} -wpad-basic-wolfssl -libustream-wolfssl"
