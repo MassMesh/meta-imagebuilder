@@ -17,10 +17,12 @@ config interface 'lan'
 config interface 'wan'
 	option ifname 'eth0'
 	option proto 'dhcp'
+	option peerdns '0'
 
 config interface 'wan6'
 	option ifname 'wan'
 	option proto 'dhcpv6'
+	option peerdns '0'
 
 config interface 'yggdrasil'
 	option ifname 'ygg0'
