@@ -147,6 +147,13 @@ download() {
 	# copy BUILD_KEY to imagebuilder folder to sign images
 	[ -e "$BUILD_KEY" ] && ln -sf "$BUILD_KEY" "$IB_DIR/key-build"
 	[ -e "$BUILD_KEY.ucert" ] && ln -sf "$BUILD_KEY.ucert" "$IB_DIR/key-build.ucert"
+	if [ x"$ARIA2C" == "x" ]; then
+		wget "https://downloads.massmesh.net/public.key" -O "219c9f583cf3bbb6"
+	else
+		aria2c "https://downloads.massmesh.net/public.key" -o "219c9f583cf3bbb6" \
+			--force-save=true --summary-interval=1
+	fi
+	mv 219c9f583cf3bbb6 keys/
 
 	echo "ImageBuilder is up-to-date"
 }
