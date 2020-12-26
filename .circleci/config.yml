@@ -94,3 +94,10 @@ workflows:
           device: ubnt_unifiac-mesh
           requires:
             - checkout_code
+      - build:
+          name: build_aerohive_ap330
+          community: massmesh
+          profile: meshradio
+          device: aerohive-ap330
+          requires:
+            - checkout_code
