@@ -98,6 +98,6 @@ workflows:
           name: build_aerohive_ap330
           community: massmesh
           profile: meshradio
-          device: aerohive-ap330
+          device: aerohive_hiveap-330
           requires:
             - checkout_code
