@@ -9,7 +9,6 @@ config wifi-device 'radio0'
 
 config wifi-iface 'default_radio0'
         option device 'radio0'
-        option ifname 'radio011s'
         option encryption 'none'
         option mode 'ap'
         option network 'lan'
