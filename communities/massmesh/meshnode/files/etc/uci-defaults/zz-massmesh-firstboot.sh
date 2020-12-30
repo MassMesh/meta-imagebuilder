@@ -9,10 +9,6 @@ uci add firewall forwarding
 uci set firewall.@forwarding[-1].dest='yggdrasil'
 uci set firewall.@forwarding[-1].src='lan'
 uci commit
-uci add firewall forwarding
-uci set firewall.@forwarding[-1].dest='lan'
-uci set firewall.@forwarding[-1].src='yggdrasil'
-uci commit
 
 # Enable masquerading on ygg interface
 uci set firewall.yggdrasil.masq='1'
