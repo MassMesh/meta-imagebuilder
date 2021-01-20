@@ -27,11 +27,6 @@ export PACKAGES="${PACKAGES} jq"
 export PACKAGES="${PACKAGES} kmod-usb-net-rndis" # USB Tethering
 export PACKAGES="${PACKAGES} kmod-usb-net-asix-ax88179 kmod-usb-net-rtl8152" # USB Adapters
 
-## USB WAN Support files
-# ~ Reset utility used for tethering or jammed Wi-Fi devices
-# ~ (see LiMe opkgs: watchping / watchdog)
-export PACKAGES="${PACKAGES} usbreset" # USB HC reset (host side, soft reset)
-
 ## DESELECTED ##########################################################################
 # ~ Lost Tor support after yggdrasil CKR fixed throughput without need of proxy.
 # export PACKAGES="${PACKAGES} tor tor-fw-helper tor-resolve torsocks" # Tor
