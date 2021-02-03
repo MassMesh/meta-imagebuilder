@@ -10,9 +10,10 @@ export PACKAGES="${PACKAGES} yggdrasil cjdns" # mesh routing protocols yggdrasil
 export PACKAGES="${PACKAGES} luci-app-yggdrasil" # LuCI admin for yggdrasil
 export PACKAGES="${PACKAGES} luci-app-cjdns" # LuCI admin for cjdns
 
-## MassMesh Packages repo.com/massmesh/mm-toolbox.git
+## MassMesh Packages downloads.massmesh.net/snapshots/packages
 export PACKAGES="${PACKAGES} autoygg-go"
 export PACKAGES="${PACKAGES} luci-app-autoygg"
+export PACKAGES="${PACKAGES} massmesh-gateways"
 
 ## Benchmarking / Common Utils
 export PACKAGES="${PACKAGES} nano iperf3 curl tcpdump iputils-ping vnstat mtr noping"
