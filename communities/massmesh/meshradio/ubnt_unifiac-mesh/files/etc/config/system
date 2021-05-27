@@ -1,6 +1,6 @@
 
 config system
-	option hostname 'OpenWrt'
+	option hostname 'meshradio'
 	option ttylogin '0'
 	option urandom_seed '0'
 	option zonename 'America/New York'
