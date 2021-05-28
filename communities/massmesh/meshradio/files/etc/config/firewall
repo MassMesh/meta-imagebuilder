@@ -120,6 +120,36 @@ config rule
 	option proto 'udp'
 	option target 'ACCEPT'
 
+config rule
+  option name 'Allow-SSH-From-Meshnode'
+  list proto 'tcp'
+  option src 'lan'
+  option dest_port '22'
+  option target 'ACCEPT'
+  list src_ip '192.168.42.1'
+
+config rule
+  option name 'Allow-HTTP-From-Meshnode'
+  list proto 'tcp'
+  option src 'lan'
+  list src_ip '192.168.42.1'
+  option target 'ACCEPT'
+  option dest_port '80'
+
+config rule
+  list proto 'tcp'
+  option src 'lan'
+  option dest_port '22'
+  option target 'REJECT'
+  option name 'Reject-SSH-From-LAN'
+
+config rule
+  list proto 'tcp'
+  option src 'lan'
+  option dest_port '80'
+  option target 'REJECT'
+  option name 'Reject-HTTP-From-LAN'
+
 config include
 	option path '/etc/firewall.user'
 
