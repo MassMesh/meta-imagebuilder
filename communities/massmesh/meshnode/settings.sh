@@ -28,6 +28,12 @@ export PACKAGES="${PACKAGES} jq"
 export PACKAGES="${PACKAGES} kmod-usb-net-rndis" # USB Tethering
 export PACKAGES="${PACKAGES} kmod-usb-net-asix-ax88179 kmod-usb-net-rtl8152" # USB Adapters
 
+# For prometheus metrics export
+export PACKAGES="${PACKAGES} prometheus-node-exporter-lua prometheus-node-exporter-lua-openwrt prometheus-node-exporter-lua-netstat"
+
+# For prometheus metrics support of the meshradio, behind meshnode: we need a reverse proxy
+export PACKAGES="${PACKAGES} nginx"
+
 ## DESELECTED ##########################################################################
 # ~ Lost Tor support after yggdrasil CKR fixed throughput without need of proxy.
 # export PACKAGES="${PACKAGES} tor tor-fw-helper tor-resolve torsocks" # Tor

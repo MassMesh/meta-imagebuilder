@@ -22,6 +22,20 @@ uci set firewall.@rule[-1].dest_port='5201'
 uci set firewall.@rule[-1].target='ACCEPT'
 uci commit
 
+# Allow a default-disabled firewall rule for prometheus metrics access from
+# prometheus.massmesh.net
+uci add firewall rule
+uci set firewall.@rule[-1].name='Metrics access from prometheus.massmesh.net'
+uci set firewall.@rule[-1].src='yggdrasil'
+uci add_list firewall.@rule[-1].proto='tcp'
+uci set firewall.@rule[-1].family='ipv6'
+uci set firewall.@rule[-1].dest_port='9100-9101'
+uci add_list firewall.@rule[-1].src_ip='201:506e:60d6:bd66:e35c:606:4883:ea9a'
+uci set firewall.@rule[-1].target='ACCEPT'
+uci set firewall.@rule[-1].enabled=0
+uci commit
+
+
 # Add yggdrasil peers
 uci add yggdrasil interface_peer
 uci set yggdrasil.@interface_peer[-1].uri='tcp://45.77.107.150:34660'
