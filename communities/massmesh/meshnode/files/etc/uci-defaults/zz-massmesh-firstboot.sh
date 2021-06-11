@@ -70,6 +70,9 @@ uci set yggdrasil.@interface_peer[-1].interface=`uci get network.wan.ifname`
 uci add yggdrasil interface_peer
 uci set yggdrasil.@interface_peer[-1].uri='tcp://longseason.1200bps.xyz:13121'
 uci set yggdrasil.@interface_peer[-1].interface=`uci get network.wan.ifname`
+uci add yggdrasil interface_peer
+uci set yggdrasil.@interface_peer[-1].uri='tcp://gateway1.clearnet.massmesh.net:1617'
+uci set yggdrasil.@interface_peer[-1].interface=`uci get network.wan.ifname`
 uci commit
 
 # Add yggdrasil tunnel routing config
