@@ -6,9 +6,8 @@ export EXTRA_IMAGE_NAME="massmesh-meshnode"
 export PACKAGES="${PACKAGES} libustream-mbedtls ca-bundle ca-certificates"
 
 ## Routing
-export PACKAGES="${PACKAGES} yggdrasil cjdns" # mesh routing protocols yggdrasil and cjdns
+export PACKAGES="${PACKAGES} yggdrasil" # mesh routing protocol yggdrasil
 export PACKAGES="${PACKAGES} luci-app-yggdrasil" # LuCI admin for yggdrasil
-export PACKAGES="${PACKAGES} luci-app-cjdns" # LuCI admin for cjdns
 
 ## MassMesh Packages downloads.massmesh.net/snapshots/packages
 export PACKAGES="${PACKAGES} autoygg-go"
